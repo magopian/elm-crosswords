@@ -5,22 +5,17 @@ import Html.Attributes
 
 
 gridWidth =
+    4
+
+
+gridHeight =
     3
 
 
 main =
     Html.div
         (gridStyle gridWidth)
-        [ Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        , Html.div [ Html.Attributes.style "background-color" "#fff" ] []
-        ]
+        (List.concat <| grid gridWidth gridHeight)
 
 
 gridStyle : Int -> List (Html.Attribute ())
@@ -41,3 +36,20 @@ gridTemplateColumns width =
     Html.Attributes.style
         "grid-template-columns"
         ("repeat(" ++ String.fromInt width ++ ", 1fr)")
+
+
+grid : Int -> Int -> List (List (Html.Html ()))
+grid width height =
+    List.range 1 height
+        |> List.map (\_ -> gridRow width)
+
+
+gridRow : Int -> List (Html.Html ())
+gridRow width =
+    List.range 1 width
+        |> List.map (\_ -> gridCell)
+
+
+gridCell : Html.Html ()
+gridCell =
+    Html.div [ Html.Attributes.style "background-color" "#fff" ] []
